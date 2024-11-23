@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeliverIA - Sistema de Gestión</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="#" class="logo">DeliverIA</a>
+        <div class="nav-menu">
+            <a href="#" class="nav-link active">
+                <i class="fas fa-home"></i>
+                Dashboard
+            </a>
+            <a href="#" class="nav-link">
+                <i class="fas fa-box"></i>
+                Inventario
+            </a>
+            <a href="#" class="nav-link">
+                <i class="fas fa-chart-line"></i>
+                Predicciones
+            </a>
+            <a href="pedidos.html" class="nav-link">
+                <i class="fas fa-shopping-cart"></i>
+                Pedidos
+            </a>
+            <a href="#" class="nav-link">
+                <i class="fas fa-credit-card"></i>
+                Financiamiento
+            </a>
+        </div>
+    </nav>
+
+    <aside class="sidebar">
+        <div class="company-info">
+            <h2>Mi PyME</h2>
+            <p>Plan: Premium</p>
+        </div>
+
+        <div class="sidebar-section">
+            <h3>GESTIÓN</h3>
+            <ul class="sidebar-menu">
+                <li>
+                    <a href="#">
+                        <i class="fas fa-boxes"></i>
+                        Productos
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-truck"></i>
+                        Proveedores
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-users"></i>
+                        Clientes
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-warehouse"></i>
+                        Almacenes
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="sidebar-section">
+            <h3>FINANZAS</h3>
+            <ul class="sidebar-menu">
+                <li>
+                    <a href="#">
+                        <i class="fas fa-credit-card"></i>
+                        Créditos
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-file-invoice-dollar"></i>
+                        Facturas
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-chart-pie"></i>
+                        Reportes
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <div class="kpi-grid">
+            <div class="kpi-card">
+                <h3>Productos en Stock</h3>
+                <div class="kpi-value">1,234</div>
+                <div class="kpi-trend positive">+5.2% vs mes anterior</div>
+            </div>
+            <div class="kpi-card">
+                <h3>Productos por Agotarse</h3>
+                <div class="kpi-value">28</div>
+                <div class="kpi-trend warning">Requiere atención</div>
+            </div>
+            <div class="kpi-card">
+                <h3>Crédito Disponible</h3>
+                <div class="kpi-value">$25,000</div>
+                <div class="kpi-trend">Límite: $50,000</div>
+            </div>
+            <div class="kpi-card">
+                <h3>Pedidos Pendientes</h3>
+                <div class="kpi-value">12</div>
+                <div class="kpi-trend">Todo en tiempo</div>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <a href="#" class="tab active">Resumen</a>
+            <a href="#" class="tab">Predicciones</a>
+            <a href="#" class="tab">Finanzas</a>
+            <a href="#" class="tab">Alertas</a>
+        </div>
+
+        <div class="charts-grid">
+            <div class="chart-container">
+                <h3>Niveles de Inventario</h3>
+                <canvas id="inventoryChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <h3>Predicción de Demanda</h3>
+                <canvas id="demandChart"></canvas>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <script>
+        // Gráficos fijos
+        const inventoryChart = new Chart(document.getElementById('inventoryChart').getContext('2d'), {
+            type: 'line',
+            data: {
+                labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Nivel de Inventario',
+                    data: [1200, 1150, 1400, 1300, 1280, 1500],
+                    borderColor: '#00BFA5',
+                    backgroundColor: 'rgba(0, 191, 165, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+
+        const demandChart = new Chart(document.getElementById('demandChart').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: ['Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                datasets: [{
+                    label: 'Demanda Real',
+                    data: [800, 950, 1100, 1250, null, null],
+                    backgroundColor: '#2962FF'
+                },
+                {
+                    label: 'Demanda Predicha',
+                    data: [null, null, null, null, 1400, 1600],
+                    backgroundColor: 'rgba(41, 98, 255, 0.5)'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
